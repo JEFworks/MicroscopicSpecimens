@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Microscopic Specimens</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 250px);
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .gallery a {
+      display: block;
+      overflow: hidden;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery a:hover img {
+      transform: scale(1.1);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 100;
+    }
+
+    .lightbox:target {
+      display: flex;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .lightbox-content {
+      max-width: 800px;
+      max-height: 90vh;
+      overflow: auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      animation: zoomIn 0.4s ease;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+    }
+
+    .lightbox-content img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      text-decoration: none;
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Microscopic Specimens</h1>
+
+  <div class="gallery">
+    <a href="#img1"><img src="img/macro/anatomyofbutterfly_macro.jpg" alt="Victorian Slide - Anatomy of Butterfly by Edmund Wheeler" /></a>
+    <a href="#img2"><img src="img/macro/foraminiferaadriaticsea_macro.jpg" alt="Victorian Slide - Foraminifera Adriatic Sea by Edmund Wheeler" /></a>
+    <a href="#img3"><img src="img/macro/actinocyclusralfsii_macro.jpg" alt="Victorian Slide - Actinocyclus Ralfsii by E.S. Boston" /></a>
+    <a href="#img4"><img src="img/macro/diatomsesamuels_macro.jpg" alt="Victorian Slide - Diatoms by Emmanuel Samuels" /></a>
+    <a href="#img5"><img src="img/macro/exhibitionchristmastree_macro.jpg" alt="Victorian Slide - Exhibition Christmas Tree" /></a>
+  </div>
+
+  <!-- Lightbox Pages -->
+  <div id="img1" class="lightbox">
+    <a href="#" class="close">&times;</a>
+    <div class="lightbox-content">
+      <iframe width="400" height="720"
+src="https://www.youtube.com/embed/vVKCkiwpIgg"
+title="YouTube video player"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+allowfullscreen></iframe>
+      <h2>Anatomy of Butterfly</h2>
+      <p>Butterfly species Argynnis niobe (Niobe fritillary). Slide by Edmund Wheeler.</p>
+    </div>
+  </div>
+
+  <div id="img2" class="lightbox">
+    <a href="#" class="close">&times;</a>
+    <div class="lightbox-content">
+      <img src="img/micro/foraminiferaadriaticsea_micro.jpg" alt="Victorian Slide - Foraminifera Adriatic Sea by Edmund Wheeler">
+      <h2>Foraminifera</h2>
+      <p>From the Adriatic Sea. Slide by Edmund Wheeler. Shot with incident lighting.</p>
+    </div>
+  </div>
+
+  <div id="img3" class="lightbox">
+    <a href="#" class="close">&times;</a>
+    <div class="lightbox-content">
+      <img src="img/micro/actinocyclusralfsii_micro-1.jpg" alt="Victorian Slide - Actinocyclus Ralfsii by E.S. Boston">
+      <img src="img/micro/actinocyclusralfsii_micro-2.jpg" alt="Victorian Slide - Actinocyclus Ralfsii by E.S. Boston">
+      <h2>Actinocyclus Ralfsii</h2>
+      <p>Diatoms. Slide possibly by E.S. Boston.</p>
+    </div>
+  </div>
+
+  <div id="img4" class="lightbox">
+    <a href="#" class="close">&times;</a>
+    <div class="lightbox-content">
+      <img src="img/micro/diatomsesamuels_micro.jpg" alt="Victorian Slide - Diatoms by Emmanuel Samuels">
+      <h2>Diatoms</h2>
+      <p>Slide by Emmanuel Samuels.</p>
+    </div>
+  </div>
+
+  <div id="img5" class="lightbox">
+    <a href="#" class="close">&times;</a>
+    <div class="lightbox-content">
+      <img src="img/micro/exhibitionchristmastree_micro.jpg" alt="Victorian Slide - Exhibition Christmas Tree">
+      <h2>Exhibition Christmas Tree</h2>
+      <p>Exhibition mount of arranged diatoms. Slide possibly by the Barbour Brothers. Shot with phase contrast.</p>
+    </div>
+  </div>
+   
+
+</body>
+</html>
