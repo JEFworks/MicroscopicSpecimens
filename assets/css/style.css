@@ -23,8 +23,8 @@ h1, h2, h3 {
   height: 100vh;
   width: 220px;
 
-  background-image: url('/assets/images/banner.jpg'); /* Replace with your image path */
-  background-size: 220px 100vh; /* Force width to match sidebar */
+  background-image: url('banner.jpg'); 
+  background-size: 220px 100vh; 
   background-repeat: no-repeat;
   background-position: top left;
   background-attachment: fixed;

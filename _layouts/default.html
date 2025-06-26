@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
   <title>{{ site.title }} - {{ page.title }}</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
 
   <div class="sidebar">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/projects">Projects</a>
-    <a href="/resources">Resources</a>
-    <a href="/contact">Contact</a>
+    <a href="{{ site.baseurl }}/">Home</a>
+    <a href="{{ site.baseurl }}/about">About</a>
+    <a href="{{ site.baseurl }}/projects">Projects</a>
+    <a href="{{ site.baseurl }}/resources">Resources</a>
+    <a href="{{ site.baseurl }}/contact">Contact</a>
   </div>
 
   <div class="main-content">

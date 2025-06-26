@@ -5,7 +5,7 @@ title: home
 
 <div class="gallery">
   {% for slide in site.slides %}
-    <a href="{{ slide.url }}" class="gallery-item">
+    <a href="{{ site.baseurl }}/{{ slide.url }}" class="gallery-item">
       <img src="{{ slide.image }}" alt="{{ slide.alt | default: slide.title }}">
     </a>
   {% endfor %}
