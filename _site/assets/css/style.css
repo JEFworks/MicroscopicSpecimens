@@ -1,0 +1,127 @@
+ * {
+      box-sizing: border-box;
+    }
+
+    body {
+  font-family: "Georgia", "Garamond", "Palatino Linotype", "Times New Roman", serif;
+  background-color: #f7f4ec;
+  color: #2c1d10;
+  line-height: 1.6;
+  padding: 2rem;
+    }
+
+h1, h2, h3 {
+  text-align: center;
+  font-family: "Palatino Linotype", "Georgia", "Times New Roman", serif;
+  color: #3a2f23;
+  letter-spacing: 0.5px;
+      margin: 2rem 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+  height: 100vh;
+  width: 220px;
+
+  background-image: url('/assets/images/banner.jpg'); /* Replace with your image path */
+  background-size: 220px 100vh; /* Force width to match sidebar */
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-attachment: fixed;
+
+  padding-top: 50vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  color: #ffdb5d;
+}
+
+.sidebar h2 {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  color: #ffdb5d;
+  text-align: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.sidebar a:hover {
+  color: #553e1e;
+  background-color: #ffdb5d;
+}
+
+/* Main content styles */
+.main-content {
+  margin-left: 220px;
+  padding: 20px;
+  flex: 1;
+}
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .gallery a {
+      display: block;
+      overflow: hidden;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* <-- diffuse shadow */
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery a:hover img {
+      transform: scale(1.1);
+    }
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+
+.slide-page img {
+    max-width: 100%;
+}
+
+
+.rotated-container {
+    background: #000;
+
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .rotated-image {
+      transform: rotate(90deg);
+      transform-origin: center center;
+    }

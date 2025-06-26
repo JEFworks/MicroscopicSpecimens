@@ -1,0 +1,7 @@
+title: "Microscopic Specimens"
+baseurl: "/" 
+
+collections:
+  slides:
+    output: true
+    permalink: /slides/:name/
