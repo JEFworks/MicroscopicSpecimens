@@ -12,7 +12,7 @@
     body {
       font-family: sans-serif;
       margin: 0;
-      background: #fff;
+      background: #f2f2f;
     }
 
     h1 {
@@ -22,7 +22,7 @@
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, 250px);
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem;
       padding: 1rem;
     }
@@ -32,6 +32,7 @@
       overflow: hidden;
       border-radius: 12px;
       transition: transform 0.3s ease;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* <-- diffuse shadow */
     }
 
     .gallery img {
@@ -107,10 +108,10 @@
   <h1>Microscopic Specimens</h1>
 
   <div class="gallery">
-    <a href="#img1"><img src="img/macro/anatomyofbutterfly_macro.jpg" alt="Victorian Slide - Anatomy of Butterfly by Edmund Wheeler" /></a>
-    <a href="#img2"><img src="img/macro/foraminiferaadriaticsea_macro.jpg" alt="Victorian Slide - Foraminifera Adriatic Sea by Edmund Wheeler" /></a>
-    <a href="#img3"><img src="img/macro/actinocyclusralfsii_macro.jpg" alt="Victorian Slide - Actinocyclus Ralfsii by E.S. Boston" /></a>
-    <a href="#img4"><img src="img/macro/diatomsesamuels_macro.jpg" alt="Victorian Slide - Diatoms by Emmanuel Samuels" /></a>
+    <a href="#img1"><img src="img/macro/anatomyofbutterfly_macro.jpg" alt="Victorian Slide - Anatomy of Butterfly prepared by Edmund Wheeler" /></a>
+    <a href="#img2"><img src="img/macro/foraminiferaadriaticsea_macro.jpg" alt="Victorian Slide - Foraminifera Adriatic Sea prepared by Edmund Wheeler" /></a>
+    <a href="#img3"><img src="img/macro/actinocyclusralfsii_macro.jpg" alt="Victorian Slide - Actinocyclus Ralfsii prepared by E.S. Boston" /></a>
+    <a href="#img4"><img src="img/macro/diatomsesamuels_macro.jpg" alt="Victorian Slide - Diatoms prepared by Emmanuel Samuels" /></a>
     <a href="#img5"><img src="img/macro/exhibitionchristmastree_macro.jpg" alt="Victorian Slide - Exhibition Christmas Tree" /></a>
   </div>
 
@@ -125,35 +126,35 @@ frameborder="0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 allowfullscreen></iframe>
       <h2>Anatomy of Butterfly</h2>
-      <p>Butterfly species Argynnis niobe (Niobe fritillary). Slide by Edmund Wheeler.</p>
+      <p>Butterfly species Argynnis niobe (Niobe fritillary). Slide prepared by Edmund Wheeler.</p>
     </div>
   </div>
 
   <div id="img2" class="lightbox">
     <a href="#" class="close">&times;</a>
     <div class="lightbox-content">
-      <img src="img/micro/foraminiferaadriaticsea_micro.jpg" alt="Victorian Slide - Foraminifera Adriatic Sea by Edmund Wheeler">
+      <img src="img/micro/foraminiferaadriaticsea_micro.jpg" alt="Victorian Slide - Foraminifera Adriatic Sea prepared by Edmund Wheeler">
       <h2>Foraminifera</h2>
-      <p>From the Adriatic Sea. Slide by Edmund Wheeler. Shot with incident lighting.</p>
+      <p>From the Adriatic Sea. Slide prepared by Edmund Wheeler. Shot with incident lighting.</p>
     </div>
   </div>
 
   <div id="img3" class="lightbox">
     <a href="#" class="close">&times;</a>
     <div class="lightbox-content">
-      <img src="img/micro/actinocyclusralfsii_micro-1.jpg" alt="Victorian Slide - Actinocyclus Ralfsii by E.S. Boston">
-      <img src="img/micro/actinocyclusralfsii_micro-2.jpg" alt="Victorian Slide - Actinocyclus Ralfsii by E.S. Boston">
+      <img src="img/micro/actinocyclusralfsii_micro-1.jpg" alt="Victorian Slide - Actinocyclus Ralfsii prepared by E.S. Boston">
+      <img src="img/micro/actinocyclusralfsii_micro-2.jpg" alt="Victorian Slide - Actinocyclus Ralfsii prepared by E.S. Boston">
       <h2>Actinocyclus Ralfsii</h2>
-      <p>Diatoms. Slide possibly by E.S. Boston.</p>
+      <p>Diatoms. Slide possibly prepared by E.S. Boston.</p>
     </div>
   </div>
 
   <div id="img4" class="lightbox">
     <a href="#" class="close">&times;</a>
     <div class="lightbox-content">
-      <img src="img/micro/diatomsesamuels_micro.jpg" alt="Victorian Slide - Diatoms by Emmanuel Samuels">
+      <img src="img/micro/diatomsesamuels_micro.jpg" alt="Victorian Slide - Diatoms prepared by Emmanuel Samuels">
       <h2>Diatoms</h2>
-      <p>Slide by Emmanuel Samuels.</p>
+      <p>Slide prepared by Emmanuel Samuels.</p>
     </div>
   </div>
 
@@ -162,7 +163,7 @@ allowfullscreen></iframe>
     <div class="lightbox-content">
       <img src="img/micro/exhibitionchristmastree_micro.jpg" alt="Victorian Slide - Exhibition Christmas Tree">
       <h2>Exhibition Christmas Tree</h2>
-      <p>Exhibition mount of arranged diatoms. Slide possibly by the Barbour Brothers. Shot with phase contrast.</p>
+      <p>Exhibition mount of arranged diatoms. Slide possibly prepared by the Barbour Brothers. Shot with phase contrast.</p>
     </div>
   </div>
    
