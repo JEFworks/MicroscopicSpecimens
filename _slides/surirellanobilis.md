@@ -3,9 +3,10 @@ layout: slide_page
 title: "Surirella nobilis"
 image: "assets/images/surirellanobilis_macro.jpg"
 alt: "Victorian Slide - Surirella nobilis prepared by Emmanuel Samuels"
-description: "Slide prepared by Emmanuel Samuels."
 ---
 
-Surirella nobilis is a species of diatom [first identified and described by W Gregory in 1856](https://diatoms.org/species/51542/iconella_tenera). It has since been reclassified as Iconella tenera.  
-
 <img src="{{ site.baseurl }}/assets/images/surirellanobilis_micro.jpg">
+
+[Surirella nobilis](https://www.algaebase.org/search/species/detail/?species_id=48198) is a species of diatom described by William Smith in 1853 in his book ["Synopsis of the British Diatomaceae."](https://archive.org/details/synopsisofbritis02smit)
+
+<img src="{{ site.baseurl }}/assets/images/surirellanobilis_background.jpg">

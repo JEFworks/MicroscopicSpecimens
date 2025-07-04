@@ -1,6 +1,6 @@
 ---
 layout: slide_page
-title: "Surirella"
+title: "Omphalopelta cellulosa"
 image: "assets/images/omphalopeltacellulosa_macro.jpg"
 alt: "Victorian Slide - Omphalopelta cellulosa prepared by Emmanuel Samuels"
 description: "Slide prepared by Emmanuel Samuels."

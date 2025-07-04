@@ -30,7 +30,7 @@ title: about
 		<img src="/assets/images/about_selfportrait.jpg">
     <div class="about-text">
       <p>
-      	This collection of Victorian microscopic specimen slides belonged to the late <a href="https://en.wikipedia.org/wiki/Joseph_G._Gall">Joe Gall</a> and was gifted by his wife Diane Dwyer to <a href="https://jean.fan/">Jean Fan</a>, who made this website to digitize the contents for posterity.
+      	This collection of Victorian microscopic specimen slides belonged to the late <a href="https://en.wikipedia.org/wiki/Joseph_G._Gall">Joseph Gall</a> and was gifted by his wife Diane Dwyer to <a href="https://jean.fan/">Jean Fan</a>, who made this website to digitize the contents for posterity.
       	<br><br>
       	The antique brass microscope depicted here is the Weeham binocular microscope with separate eyepiece drives manufactured by <a href="http://microscopist.net/HusbandsH.html">Husbands and Clarke Bristol in the 1800s</a>, acquired in parts from Historical Technology Inc by Joe in 1978, and reassembled by Jean in 2025. 
       	<br><br>
