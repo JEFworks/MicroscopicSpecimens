@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera - microspeci.men</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "IM Fell English SC", serif;
+            color: white;
+            overflow-x: hidden;
+            background-color: #000;
+            text-align: center;
+        }
+
+        /* Fixed background video container */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            background: #000;
+        }
+
+        /* Scrollable content container */
+        .content {
+            position: relative;
+            z-index: 1;
+            min-height: 300vh; /* Make page scrollable - adjust based on video length */
+            padding: 50vh 2rem 50vh;
+        }
+
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* Navigation button */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background-color: rgba(87, 87, 81, 0.8);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: "IM Fell English SC", serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            z-index: 10;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: rgba(107, 107, 101, 0.9);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video id="backgroundVideo" preload="auto" muted playsinline loop>
+            <source src="/assets/main/background_small.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <a href="index.html" class="back-button">← BACK</a>
+
+    <div class="content">
+        <div class="content-section">
+            <h1>CAMERA VIEW</h1>
+            <p>scroll to explore</p>
+        </div>
+
+        <div class="content-section" style="margin-top: 50vh;">
+            <p>Polaroid Land Camera Model 95</p>
+        </div>
+
+        <div class="content-section" style="margin-top: 50vh;">
+            <p>Argus C3</p>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('backgroundVideo');
+        let videoReady = false;
+        
+        // Ensure video is loaded and displays first frame
+        video.addEventListener('loadedmetadata', () => {
+            videoReady = true;
+            video.currentTime = 0;
+            video.pause();
+            updateVideoFrame(); // Initial update once metadata is loaded
+        });
+        
+        // Error handling
+        video.addEventListener('error', (e) => {
+            console.error('Video error:', e, video.error);
+        });
+        
+        // Force load video on page load
+        video.load();
+
+        // Sync video playback with scroll position
+        function updateVideoFrame() {
+            // Only update if video metadata is loaded
+            if (!videoReady || !video.duration || isNaN(video.duration)) {
+                return;
+            }
+            
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollProgress = scrollHeight > 0 ? Math.min(Math.max(scrollTop / scrollHeight, 0), 1) : 0;
+            
+            // Map scroll progress (0-1) to video time (0 to video duration)
+            const targetTime = scrollProgress * video.duration;
+            
+            // Only update if the time has changed significantly to avoid excessive updates
+            if (Math.abs(video.currentTime - targetTime) > 0.033) { // ~1 frame at 30fps
+                video.currentTime = targetTime;
+            }
+        }
+
+        // Throttle scroll events for better performance
+        let ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateVideoFrame();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        
+        // Try initial update after a short delay
+        setTimeout(() => {
+            updateVideoFrame();
+        }, 200);
+    </script>
+</body>
+</html>
