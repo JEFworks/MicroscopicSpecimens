@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microscopes - microspeci.men</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fff;
+            font-family: "IM Fell English SC", serif;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Gallery wrapper with circular viewport */
+        .gallery-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Microscope viewport overlay - black outside, transparent circle in center with feathering */
+        .viewport-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, transparent 38vh, rgba(0, 0, 0, 0.3) 39vh, rgba(0, 0, 0, 0.7) 40vh, black 41vh);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Gallery container */
+        .gallery-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+            padding: 0;
+        }
+
+        .gallery-container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .gallery-content {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            gap: 2rem; /* Reduced gap for closer images */
+            padding: 0 50vw; /* Center first image */
+        }
+
+        /* Individual gallery item */
+        .gallery-item {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            max-width: 40vh; /* Match the circular viewport diameter (40vh radius * 2) */
+            max-height: 40vh;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-item-caption {
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            max-width: 100%;
+            padding: 0 1rem;
+            display: none; /* Hide caption in viewport - only show in modal */
+        }
+
+        /* Modal overlay for expanded view */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #000;
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-caption {
+            margin-top: 2rem;
+            font-size: 2rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+            max-width: 90vw;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
+            color: black;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            font-family: "IM Fell English SC", serif;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-close:hover {
+            opacity: 0.7;
+        }
+
+        /* Back button */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background-color: rgba(87, 87, 81, 0.8);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: "IM Fell English SC", serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            z-index: 20;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: rgba(107, 107, 101, 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Instructions */
+        .instructions {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            text-align: center;
+            opacity: 0.7;
+            z-index: 15;
+            pointer-events: none;
+            letter-spacing: 0.05em;
+        }
+
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .gallery-item {
+                width: 80vw; /* Match the circular viewport diameter (40vw radius * 2) */
+                height: 80vw;
+                min-width: 300px;
+                max-width: 80vw;
+            }
+
+            .viewport-overlay {
+                background: radial-gradient(circle at center, transparent 38vw, rgba(0, 0, 0, 0.3) 39vw, rgba(0, 0, 0, 0.7) 40vw, black 41vw);
+            }
+
+            .gallery-item-caption {
+                font-size: 1.2rem;
+            }
+
+            .modal-caption {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← BACK</a>
+    
+    <div class="instructions">Use ← → arrow keys to navigate • Click image to expand</div>
+
+    <div class="gallery-wrapper">
+        <div class="gallery-container" id="galleryContainer">
+            <div class="gallery-content" id="galleryContent">
+                <!-- Gallery items will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Viewport overlay for circular microscope view -->
+    <div class="viewport-overlay"></div>
+
+    <!-- Modal for expanded view -->
+    <div class="modal-overlay" id="modalOverlay">
+        <button class="modal-close" id="modalClose">×</button>
+        <div class="modal-content">
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery images with captions
+        const galleryImages = [
+            {
+                src: 'assets/gallery/reichertsmicroscope_1.jpg',
+                caption: 'Reichert\'s Microscope'
+            },
+            {
+                src: 'assets/gallery/reichertsmicroscope_2.jpg',
+                caption: 'Catalogue for Reichert\'s Microscope'
+            },
+            {
+                src: 'assets/gallery/vintagebrassmicroscope_1.jpg',
+                caption: 'Vintage Brass Microscope'
+            },
+            {
+                src: 'assets/gallery/vintagebrassmicroscope_2.jpg',
+                caption: 'Building a Vintage Brass Microscope'
+            },
+            {
+                src: 'assets/gallery/vintagebrassmicroscope_3.jpg',
+                caption: 'Building a Vintage Brass Microscope'
+            },
+            {
+                src: 'assets/gallery/vintagebrassmicroscope_4.jpg',
+                caption: 'Building a Vintage Brass Microscope'
+            }
+        ];
+
+        const galleryContainer = document.getElementById('galleryContainer');
+        const galleryContent = document.getElementById('galleryContent');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalClose = document.getElementById('modalClose');
+
+        // Create gallery items
+        galleryImages.forEach((item, index) => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            galleryItem.setAttribute('data-index', index);
+
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = item.caption;
+            img.loading = 'lazy';
+
+            const caption = document.createElement('div');
+            caption.className = 'gallery-item-caption';
+            caption.textContent = item.caption;
+
+            galleryItem.appendChild(img);
+            galleryItem.appendChild(caption);
+
+            // Click to expand
+            galleryItem.addEventListener('click', () => {
+                modalImage.src = item.src;
+                modalImage.alt = item.caption;
+                modalCaption.textContent = item.caption;
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            galleryContent.appendChild(galleryItem);
+        });
+
+        // Close modal
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // Keyboard navigation
+        let scrollAmount = 0;
+        const scrollStep = 300; // pixels to scroll per key press
+
+        function scrollGallery(direction) {
+            scrollAmount += direction * scrollStep;
+            const maxScroll = galleryContent.scrollWidth - galleryContainer.clientWidth;
+            scrollAmount = Math.max(0, Math.min(scrollAmount, maxScroll));
+            
+            galleryContainer.scrollTo({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Arrow key navigation
+        document.addEventListener('keydown', (e) => {
+            // Don't navigate if modal is open
+            if (modalOverlay.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                scrollGallery(-1);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                scrollGallery(1);
+            }
+        });
+
+        // Update scroll amount on manual scroll
+        galleryContainer.addEventListener('scroll', () => {
+            scrollAmount = galleryContainer.scrollLeft;
+        });
+
+        // Initialize scroll position
+        scrollAmount = galleryContainer.scrollLeft;
+    </script>
+</body>
+</html>
