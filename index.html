@@ -1,14 +1,222 @@
----
-layout: default
-title: home
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>microspeci.men - Microscopic Specimens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<div class="gallery">
-  {% for slide in site.slides %}
-    <a href="{{ slide.url }}" class="gallery-item">
-      <img src="{{ slide.image }}" alt="{{ slide.alt | default: slide.title }}">
-    </a>
-  {% endfor %}
+        body {
+            background-color: #575751;
+            background-image: url('assets/main/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-text {
+            position: fixed;
+            top: 10vh;
+            left: 0;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            opacity: 1.0;
+            font-family: "IM Fell English SC", serif;
+            font-weight: bold;
+            font-size: max(8vw, 8vh);
+            line-height: 0.85;
+            white-space: pre-line;
+            text-align: center;
+            z-index: 0;
+            pointer-events: none;
+            letter-spacing: 0.05em;
+        }
+
+        .container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .foreground-image {
+            display: block;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+        }
+
+        .button {
+            position: absolute;
+            cursor: pointer;
+            transition: filter 0.2s ease;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        .button:hover {
+            filter: brightness(1.2);
+        }
+
+        .button:active {
+            filter: brightness(1.5);
+        }
+
+        .button img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Camera button positioning - adjust these values (relative to foreground.png) */
+        .camera-button {
+            top: 53%;
+            right: 13%;
+            height: 34%;
+            z-index: 2;
+        }
+
+        /* Microscope button positioning - adjust these values (relative to foreground.png) */
+        .microscope-button {
+            top: 3%;
+            left: 39%;
+            height: 84%;
+            z-index: 4;
+        }
+
+        /* Slides button positioning - adjust these values (relative to foreground.png) */
+        .slides-button {
+            top: 57%;
+            left: 10%;
+            height: 31%;
+            z-index: 3;
+        }
+
+        /* Navigation buttons styling */
+        .nav-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        .nav-button {
+            background-color: #575751;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-family: "IM Fell English SC", serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:hover {
+            background-color: #6b6b65;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-text">MICROSCOPIC
+SPECIMENS.
 </div>
 
+    <div class="nav-buttons">
+        <a href="about"><button class="nav-button" id="aboutBtn">ABOUT</button></a>
+        <a href="resources"><button class="nav-button" id="resourcesBtn">RESOURCES</button></a>
+    </div>
 
+    <div class="container">
+        <img src="assets/main/foreground.png" alt="Foreground" class="foreground-image" id="foreground">
+        
+        <button class="button camera-button" id="cameraBtn">
+            <img src="assets/main/camera_button.png" alt="Camera">
+        </button>
+        
+        <button class="button microscope-button" id="microscopeBtn">
+            <img src="assets/main/microscope_button.png" alt="Microscope">
+        </button>
+        
+        <button class="button slides-button" id="slidesBtn">
+            <a href="slides"><img src="assets/main/slides_button.png" alt="Slides"></a>
+        </button>
+    </div>
+
+    <script>
+        // URLs for each button - update these with your actual URLs
+        const buttonUrls = {
+            camera: '#', // Replace with actual URL
+            microscope: '#', // Replace with actual URL
+            slides: '#' // Replace with actual URL
+        };
+
+        // Get references to elements
+        const cameraBtn = document.getElementById('cameraBtn');
+        const microscopeBtn = document.getElementById('microscopeBtn');
+        const slidesBtn = document.getElementById('slidesBtn');
+
+        // Add click handlers with brightening effect
+        function handleButtonClick(url, button) {
+            // Brighten effect
+            button.style.filter = 'brightness(1.8)';
+            
+            // Navigate after a brief delay to show the brightening effect
+            setTimeout(() => {
+                if (url && url !== '#') {
+                    window.location.href = url;
+                }
+            }, 150);
+            
+            // Reset brightness after navigation
+            setTimeout(() => {
+                button.style.filter = '';
+            }, 300);
+        }
+
+        cameraBtn.addEventListener('click', () => handleButtonClick(buttonUrls.camera, cameraBtn));
+        microscopeBtn.addEventListener('click', () => handleButtonClick(buttonUrls.microscope, microscopeBtn));
+        slidesBtn.addEventListener('click', () => handleButtonClick(buttonUrls.slides, slidesBtn));
+    </script>
+</body>
+</html>
