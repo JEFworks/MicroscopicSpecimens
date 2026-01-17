@@ -16,7 +16,7 @@
 
         body {
             background-color: #575751;
-            background-image: url('assets/main/background.jpg');
+            background-image: url('/assets/main/background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -62,10 +62,6 @@
 
         .foreground-image {
             display: block;
-            max-width: 90vw;
-            max-height: 90vh;
-            width: auto;
-            height: auto;
         }
 
         .button {
@@ -145,6 +141,23 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
+        /* Responsive adjustments for smaller screens */
+        @media screen and (max-width: 768px) {
+            .foreground-image {
+                min-width: 90vw;
+                max-width: 90vw;
+            }
+
+            .nav-buttons {
+                padding: 1.5rem 1.5rem;
+            }
+
+            .nav-button {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
         .nav-button:hover {
             background-color: #6b6b65;
             transform: translateY(-2px);
@@ -163,23 +176,23 @@ SPECIMENS.
 </div>
 
     <div class="nav-buttons">
-        <a href="about"><button class="nav-button" id="aboutBtn">ABOUT</button></a>
-        <a href="resources"><button class="nav-button" id="resourcesBtn">RESOURCES</button></a>
+        <button class="nav-button" id="aboutBtn">ABOUT</button>
+        <button class="nav-button" id="resourcesBtn">RESOURCES</button>
     </div>
 
     <div class="container">
-        <img src="assets/main/foreground.png" alt="Foreground" class="foreground-image" id="foreground">
+        <img src="/assets/main/foreground.png" alt="Foreground" class="foreground-image" id="foreground">
         
         <button class="button camera-button" id="cameraBtn">
-            <a href="camera"><img src="assets/main/camera_button.png" alt="Camera"></a>
+            <a href="camera.html"><img src="/assets/main/camera_button.png" alt="Camera"></a>    
         </button>
         
         <button class="button microscope-button" id="microscopeBtn">
-            <img src="assets/main/microscope_button.png" alt="Microscope">
+            <img src="/assets/main/microscope_button.png" alt="Microscope">
         </button>
         
         <button class="button slides-button" id="slidesBtn">
-            <a href="slides"><img src="assets/main/slides_button.png" alt="Slides"></a>
+            <img src="/assets/main/slides_button.png" alt="Slides">
         </button>
     </div>
 
@@ -192,9 +205,56 @@ SPECIMENS.
         };
 
         // Get references to elements
+        const foreground = document.getElementById('foreground');
         const cameraBtn = document.getElementById('cameraBtn');
         const microscopeBtn = document.getElementById('microscopeBtn');
         const slidesBtn = document.getElementById('slidesBtn');
+        const container = foreground.parentElement;
+
+        // Maintain consistent image aspect ratio for button alignment
+        function maintainImageSize() {
+            if (foreground.complete && foreground.naturalWidth && foreground.naturalHeight) {
+                const aspectRatio = foreground.naturalWidth / foreground.naturalHeight;
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // Calculate max dimensions
+                let maxWidth = Math.min(viewportWidth * 0.9, 1200); // 90vw or 1200px max
+                let maxHeight = viewportHeight * 0.9;
+                
+                // Apply minimum width constraints
+                if (viewportWidth >= 768) {
+                    maxWidth = Math.max(maxWidth, 600); // Desktop: min 600px
+                }
+                
+                // Calculate dimensions maintaining aspect ratio
+                let displayWidth = maxWidth;
+                let displayHeight = displayWidth / aspectRatio;
+                
+                // If height exceeds max, scale down
+                if (displayHeight > maxHeight) {
+                    displayHeight = maxHeight;
+                    displayWidth = displayHeight * aspectRatio;
+                }
+                
+                // Set image dimensions explicitly
+                foreground.style.width = displayWidth + 'px';
+                foreground.style.height = displayHeight + 'px';
+            }
+        }
+
+        // Initialize and handle resize
+        if (foreground.complete) {
+            maintainImageSize();
+        } else {
+            foreground.addEventListener('load', maintainImageSize);
+        }
+        
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(maintainImageSize, 100);
+        });
 
         // Add click handlers with brightening effect
         function handleButtonClick(url, button) {
