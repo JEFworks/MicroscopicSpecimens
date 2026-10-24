@@ -1,0 +1,25 @@
+{% comment %}
+  One item in a collection grid.
+  Params: item, collection (the collection object, for its display options).
+{% endcomment %}
+{% assign item = include.item %}
+{% assign coll = include.collection %}
+{% capture search_text %}{{ item.title }} {{ item.category }} {{ item.description | markdownify | strip_html }} {% for d in item.details %}{{ d[1] }} {% endfor %}{{ item.content | strip_html | truncatewords: 80 }}{% endcapture %}
+<li class="card card--{{ coll.cover_style }}" data-category="{{ item.category | escape }}" data-search="{{ search_text | strip_newlines | downcase | escape }}">
+  <a class="card__link" href="{{ item.url | relative_url }}">
+    <span class="card__media">
+      {% include cover.html item=item style=coll.cover_style %}
+      {% if coll.gallery_style == "eyepiece" and item.images.size > 0 %}
+        {% assign first = item.images | first %}
+        <span class="card__lens" aria-hidden="true"><img data-lens-src="{{ first.src | default: first | relative_url }}" alt=""></span>
+      {% endif %}
+    </span>
+    <span class="card__body">
+      {% if item.category %}<span class="eyebrow">{{ item.category }}</span>{% endif %}
+      <span class="card__title">{{ item.title }}</span>
+      {% if item.description %}<span class="card__summary">{{ item.description | markdownify | strip_html | truncatewords: 24 }}</span>{% endif %}
+      {% assign image_count = item.images.size | default: 0 %}
+      {% if image_count > 0 %}<span class="card__count">{{ image_count }} {% if image_count == 1 %}image{% else %}images{% endif %}</span>{% endif %}
+    </span>
+  </a>
+</li>

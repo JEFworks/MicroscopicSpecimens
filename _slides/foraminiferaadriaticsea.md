@@ -1,9 +1,14 @@
 ---
-layout: slide_page
 title: "Foraminifera Adriatic Sea"
-image: "assets/images/foraminiferaadriaticsea_macro.jpg"
-alt: "Victorian Slide - Foraminifera Adriatic Sea prepared by Edmund Wheeler"
 description: "From the Adriatic Sea. Slide prepared by Edmund Wheeler. Shot with incident lighting."
+category: "Foraminifera"
+cover: "assets/images/foraminiferaadriaticsea_macro.jpg"
+alt: "Victorian Slide - Foraminifera Adriatic Sea prepared by Edmund Wheeler"
+details:
+  Preparer: "Edmund Wheeler"
+  Locality: "Adriatic Sea"
+  Lighting: "Incident"
+images:
+  - src: "assets/images/foraminiferaadriaticsea_micro.jpg"
+    caption: ""
 ---
-
-<img src="{{ site.baseurl }}/assets/images/foraminiferaadriaticsea_micro.jpg">

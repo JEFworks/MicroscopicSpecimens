@@ -1,12 +1,8 @@
 ---
-layout: default
-title: slides
+layout: collection
+title: Microscope Slides
+collection_index: slides
+permalink: /slides/
 ---
 
-<div class="gallery">
-  {% for slide in site.slides %}
-    <a href="{{ slide.url }}" class="gallery-item">
-      <img src="/{{ slide.image }}" alt="{{ slide.alt | default: slide.title }}">
-    </a>
-  {% endfor %}
-</div>
+Victorian microscope slides. Each slide is photographed whole, then examined under the microscope. Hover over a slide to look through the eyepiece, or click it to learn more.

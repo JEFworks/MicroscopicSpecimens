@@ -1,7 +1,74 @@
 title: "Microscopic Specimens"
+description: "A digitized collection of Victorian microscope slides, antique microscopes, and vintage cameras."
 baseurl: ''
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - _templates
+  - vendor
+  - .bundle
+
+# Each collection is a folder of Markdown files (_slides, _microscopes, _cameras).
+# Every file in a collection becomes one item page, and is listed automatically
+# on that collection's index page. See README.md for how to add a new item.
+#
+# Collection options:
+#   title          Heading shown on the index page and in navigation.
+#   singular       Name for one item ("slide"), used in buttons and labels.
+#   cover_style    "slide" shows the cover as a horizontal 3x1 glass slide
+#                  (cover photos are taken upright and rotated by the site).
+#                  "photo" shows the cover as a normal photograph.
+#   gallery_style  "eyepiece" shows extra images inside a round microscope view.
+#                  "photo" shows them as regular photographs.
+#   gallery_title  Heading above the extra images on each item page.
+
+# Collections shown in the site navigation, in this order.
+navigation:
+  - slides
+  - microscopes
+  - cameras
 
 collections:
   slides:
     output: true
     permalink: /slides/:name/
+    title: "Microscope Slides"
+    singular: "slide"
+    cover_style: "slide"
+    gallery_style: "eyepiece"
+    gallery_title: "Under the Microscope"
+  microscopes:
+    output: true
+    permalink: /microscopes/:name/
+    title: "Microscopes"
+    singular: "microscope"
+    cover_style: "photo"
+    gallery_style: "photo"
+    gallery_title: "Photographs"
+  cameras:
+    output: true
+    permalink: /cameras/:name/
+    title: "Cameras"
+    singular: "camera"
+    cover_style: "photo"
+    gallery_style: "photo"
+    gallery_title: "Photographs"
+
+defaults:
+  - scope:
+      path: ""
+      type: slides
+    values:
+      layout: item
+  - scope:
+      path: ""
+      type: microscopes
+    values:
+      layout: item
+  - scope:
+      path: ""
+      type: cameras
+    values:
+      layout: item

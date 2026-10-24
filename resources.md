@@ -1,6 +1,6 @@
 ---
-layout: default
-title: resources
+layout: page
+title: Resources
 ---
 
 # Resources and Links

@@ -1,0 +1,99 @@
+---
+layout: default
+---
+{% comment %}
+  Detail page for one item in any collection (slide, microscope, camera).
+  Front matter fields are documented in README.md.
+{% endcomment %}
+{% assign coll = site.collections | where: "label", page.collection | first %}
+{% assign index_url = "/" | append: coll.label | append: "/" | relative_url %}
+{% for doc in coll.docs %}{% if doc.url == page.url %}{% assign position = forloop.index %}{% endif %}{% endfor %}
+
+<article class="item item--{{ coll.cover_style }}">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ index_url }}">&larr; All {{ coll.title | downcase }}</a>
+    <span class="breadcrumb__position">{{ coll.singular | capitalize }} {{ position }} of {{ coll.docs.size }}</span>
+  </nav>
+
+  <header class="item__header">
+    <div class="item__cover">
+      {% if page.cover %}
+        <button type="button" class="zoomable" data-lightbox data-src="{{ page.cover | relative_url }}" data-caption="{{ page.title | escape }}"{% if coll.cover_style == "slide" %} data-rotate{% endif %} aria-label="Enlarge photograph of {{ page.title | escape }}">
+          {% include cover.html item=page style=coll.cover_style loading="eager" %}
+        </button>
+      {% else %}
+        {% include cover.html item=page style=coll.cover_style %}
+      {% endif %}
+    </div>
+
+    <div class="item__meta">
+      {% if page.category %}
+        <a class="eyebrow eyebrow--link" href="{{ index_url }}?category={{ page.category | uri_escape }}">{{ page.category }}</a>
+      {% endif %}
+      <h1 class="item__title">{{ page.title }}</h1>
+      {% if page.description %}
+        <div class="item__description">{{ page.description | markdownify }}</div>
+      {% endif %}
+      {% if page.details %}
+        <dl class="label-card">
+          {% for detail in page.details %}
+            <div class="label-card__row">
+              <dt>{{ detail[0] }}</dt>
+              <dd>{{ detail[1] | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd>
+            </div>
+          {% endfor %}
+        </dl>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if page.images.size > 0 %}
+    <section class="item__gallery" aria-labelledby="gallery-title">
+      <h2 class="section-title" id="gallery-title">{{ coll.gallery_title | default: "Images" }}</h2>
+      <ul class="gallery gallery--{{ coll.gallery_style }}">
+        {% for image in page.images %}
+          {% assign src = image.src | default: image %}
+          {% capture alt %}{% if image.caption and image.caption != "" %}{{ image.caption }}{% else %}{{ page.title }}, image {{ forloop.index }}{% endif %}{% endcapture %}
+          <li>
+            <figure>
+              <button type="button" class="zoomable" data-lightbox data-src="{{ src | relative_url }}" data-caption="{{ alt | escape }}" aria-label="Enlarge: {{ alt | escape }}">
+                <span class="gallery__frame"><img src="{{ src | relative_url }}" alt="{{ alt | escape }}" loading="lazy" decoding="async"></span>
+              </button>
+              {% if image.caption and image.caption != "" %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
+            </figure>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  {% assign body = content | strip %}
+  {% if body != "" %}
+    <section class="item__body prose" data-lightbox-scope>
+      {{ content }}
+    </section>
+  {% endif %}
+
+  <nav class="pager" aria-label="More {{ coll.title | downcase }}">
+    {% if page.previous %}
+      <a class="pager__link pager__link--prev" href="{{ page.previous.url | relative_url }}" rel="prev" data-pager-prev>
+        <span class="pager__thumb">{% include cover.html item=page.previous style=coll.cover_style %}</span>
+        <span class="pager__text"><span class="eyebrow">&larr; Previous</span><span class="pager__title">{{ page.previous.title }}</span></span>
+      </a>
+    {% else %}
+      <span class="pager__link pager__link--empty"></span>
+    {% endif %}
+    <a class="pager__all" href="{{ index_url }}">All {{ coll.title | downcase }}</a>
+    {% if page.next %}
+      <a class="pager__link pager__link--next" href="{{ page.next.url | relative_url }}" rel="next" data-pager-next>
+        <span class="pager__text"><span class="eyebrow">Next &rarr;</span><span class="pager__title">{{ page.next.title }}</span></span>
+        <span class="pager__thumb">{% include cover.html item=page.next style=coll.cover_style %}</span>
+      </a>
+    {% else %}
+      <span class="pager__link pager__link--empty"></span>
+    {% endif %}
+  </nav>
+  <p class="keyboard-hint">Tip: use the &larr; &rarr; keys to move between {{ coll.title | downcase }}.</p>
+</article>
+
+{% include lightbox.html %}

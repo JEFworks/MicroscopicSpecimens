@@ -1,9 +1,13 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>microspeci.men - Microscopic Specimens</title>
+    <meta name="description" content="{{ site.description }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
@@ -16,7 +20,7 @@
 
         body {
             background-color: #575751;
-            background-image: url('/assets/main/background.jpg');
+            background-image: url('{{ "/assets/main/background.jpg" | relative_url }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -66,15 +70,15 @@
 
         .button {
             position: absolute;
+            display: block;
             cursor: pointer;
             transition: filter 0.2s ease;
-            border: none;
-            background: none;
-            padding: 0;
         }
 
-        .button:hover {
+        .button:hover,
+        .button:focus-visible {
             filter: brightness(1.2);
+            outline: none;
         }
 
         .button:active {
@@ -86,6 +90,42 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+        }
+
+        /* Label that appears above each object on hover */
+        .button-label {
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            transform: translate(-50%, 6px);
+            padding: 0.35rem 0.9rem;
+            background-color: rgba(30, 24, 18, 0.88);
+            border: 1px solid rgba(201, 164, 92, 0.6);
+            border-radius: 4px;
+            color: #f3e6c8;
+            font-family: "IM Fell English SC", serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .button-label small {
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .button:hover .button-label,
+        .button:focus-visible .button-label {
+            opacity: 1;
+            transform: translate(-50%, -4px);
+        }
+
+        .microscope-button .button-label {
+            bottom: auto;
+            top: 0;
         }
 
         /* Camera button positioning - adjust these values (relative to foreground.png) */
@@ -135,6 +175,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             letter-spacing: 0.05em;
+            text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
             border-radius: 4px;
@@ -156,6 +197,10 @@
                 font-size: 1.2rem;
                 padding: 0.8rem 1.5rem;
             }
+
+            .button-label {
+                font-size: 0.9rem;
+            }
         }
 
         .nav-button:hover {
@@ -175,41 +220,32 @@
 SPECIMENS.
 </div>
 
-    <div class="nav-buttons">
-        <a href="about"><button class="nav-button" id="aboutBtn">ABOUT</button></a>
-        <a href="resources"><button class="nav-button" id="resourcesBtn">RESOURCES</button></a>
-    </div>
+    <nav class="nav-buttons">
+        <a class="nav-button" href="{{ '/about' | relative_url }}">ABOUT</a>
+        <a class="nav-button" href="{{ '/resources' | relative_url }}">RESOURCES</a>
+    </nav>
 
     <div class="container">
-        <img src="/assets/main/foreground.png" alt="Foreground" class="foreground-image" id="foreground">
-        
-        <button class="button camera-button" id="cameraBtn">
-            <a href="camera"><img src="/assets/main/camera_button.png" alt="Camera"></a>    
-        </button>
-        
-        <button class="button microscope-button" id="microscopeBtn">
-            <a href="microscope"><img src="/assets/main/microscope_button.png" alt="Microscope"></a>
-        </button>
-        
-        <button class="button slides-button" id="slidesBtn">
-            <a href="slides"><img src="/assets/main/slides_button.png" alt="Slides"></a>
-        </button>
+        <img src="{{ '/assets/main/foreground.png' | relative_url }}" alt="" class="foreground-image" id="foreground">
+
+        <a class="button camera-button" href="{{ '/cameras/' | relative_url }}">
+            <img src="{{ '/assets/main/camera_button.png' | relative_url }}" alt="Cameras">
+            <span class="button-label">Cameras <small>&middot; {{ site.cameras.size }}</small></span>
+        </a>
+
+        <a class="button microscope-button" href="{{ '/microscopes/' | relative_url }}">
+            <img src="{{ '/assets/main/microscope_button.png' | relative_url }}" alt="Microscopes">
+            <span class="button-label">Microscopes <small>&middot; {{ site.microscopes.size }}</small></span>
+        </a>
+
+        <a class="button slides-button" href="{{ '/slides/' | relative_url }}">
+            <img src="{{ '/assets/main/slides_button.png' | relative_url }}" alt="Microscope slides">
+            <span class="button-label">Slides <small>&middot; {{ site.slides.size }}</small></span>
+        </a>
     </div>
 
     <script>
-        // URLs for each button - update these with your actual URLs
-        const buttonUrls = {
-            camera: '#', // Replace with actual URL
-            microscope: '#', // Replace with actual URL
-            slides: '#' // Replace with actual URL
-        };
-
-        // Get references to elements
         const foreground = document.getElementById('foreground');
-        const cameraBtn = document.getElementById('cameraBtn');
-        const microscopeBtn = document.getElementById('microscopeBtn');
-        const slidesBtn = document.getElementById('slidesBtn');
-        const container = foreground.parentElement;
 
         // Maintain consistent image aspect ratio for button alignment
         function maintainImageSize() {
@@ -217,26 +253,26 @@ SPECIMENS.
                 const aspectRatio = foreground.naturalWidth / foreground.naturalHeight;
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
-                
+
                 // Calculate max dimensions
                 let maxWidth = Math.min(viewportWidth * 0.9, 1200); // 90vw or 1200px max
                 let maxHeight = viewportHeight * 0.9;
-                
+
                 // Apply minimum width constraints
                 if (viewportWidth >= 768) {
                     maxWidth = Math.max(maxWidth, 600); // Desktop: min 600px
                 }
-                
+
                 // Calculate dimensions maintaining aspect ratio
                 let displayWidth = maxWidth;
                 let displayHeight = displayWidth / aspectRatio;
-                
+
                 // If height exceeds max, scale down
                 if (displayHeight > maxHeight) {
                     displayHeight = maxHeight;
                     displayWidth = displayHeight * aspectRatio;
                 }
-                
+
                 // Set image dimensions explicitly
                 foreground.style.width = displayWidth + 'px';
                 foreground.style.height = displayHeight + 'px';
@@ -249,34 +285,12 @@ SPECIMENS.
         } else {
             foreground.addEventListener('load', maintainImageSize);
         }
-        
+
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(maintainImageSize, 100);
         });
-
-        // Add click handlers with brightening effect
-        function handleButtonClick(url, button) {
-            // Brighten effect
-            button.style.filter = 'brightness(1.8)';
-            
-            // Navigate after a brief delay to show the brightening effect
-            setTimeout(() => {
-                if (url && url !== '#') {
-                    window.location.href = url;
-                }
-            }, 150);
-            
-            // Reset brightness after navigation
-            setTimeout(() => {
-                button.style.filter = '';
-            }, 300);
-        }
-
-        cameraBtn.addEventListener('click', () => handleButtonClick(buttonUrls.camera, cameraBtn));
-        microscopeBtn.addEventListener('click', () => handleButtonClick(buttonUrls.microscope, microscopeBtn));
-        slidesBtn.addEventListener('click', () => handleButtonClick(buttonUrls.slides, slidesBtn));
     </script>
 </body>
 </html>

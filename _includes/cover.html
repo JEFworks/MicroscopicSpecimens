@@ -1,0 +1,12 @@
+{% comment %}
+  Renders an item's cover image.
+  Params: item, style ("slide" or "photo"), loading ("lazy" or "eager").
+{% endcomment %}
+{% assign style = include.style | default: "photo" %}
+{% if include.item.cover %}
+  <span class="cover cover--{{ style }}">
+    <img src="{{ include.item.cover | relative_url }}" alt="{{ include.item.alt | default: include.item.title | escape }}" loading="{{ include.loading | default: 'lazy' }}" decoding="async">
+  </span>
+{% else %}
+  <span class="cover cover--{{ style }} cover--empty"><span>Photograph forthcoming</span></span>
+{% endif %}
