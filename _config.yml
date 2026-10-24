@@ -1,6 +1,6 @@
 title: "Microscopic Specimens"
 description: "A digitized collection of Victorian microscope slides, antique microscopes, and vintage cameras."
-baseurl: 'https://jefworks.github.io/MicroscopicSpecimens/'
+baseurl: 'MicroscopicSpecimens/'
 
 exclude:
   - README.md
